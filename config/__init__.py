@@ -1,0 +1,3 @@
+"""
+Naukri test configuration package.
+"""

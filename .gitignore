@@ -1,0 +1,40 @@
+# Environment Variables
+.env
+*.env
+.env.local
+.env.*.local
+
+# Pytest
+.pytest_cache/
+*.pyc
+__pycache__/
+
+# Virtual Environment
+naukri/
+
+# Test Reports
+reports/
+*.html
+*.xml
+*.json
+
+# Screenshots
+reports/screenshots/
+
+# Backup
+backup/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/

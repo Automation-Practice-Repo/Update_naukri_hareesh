@@ -1,0 +1,14 @@
+execution:
+  pytest_flags: -v --tb=short
+  pytest_path: ./naukri/bin/python -m pytest
+  test_file: tests/test_naukri_update.py
+  working_directory: /Users/hareesh_chow/PycharmProjects/auto_update_naukri
+notifications:
+  log_file: reports/scheduler.log
+  on_failure: true
+  on_success: true
+schedule:
+  daily_time: 00:19
+  max_runs: 1
+  timezone: Asia/Kolkata
+  type: daily

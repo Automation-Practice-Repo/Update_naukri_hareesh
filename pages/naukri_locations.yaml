@@ -1,0 +1,47 @@
+# Naukri Login Page Locators
+# Source: https://www.naukri.com/
+
+login_link:
+  role: link
+  name: "Login"
+
+naukri_home_link:
+  role: link
+  name: "Naukri.com"
+
+login_button:
+  role: button
+  name: "Login"
+  exact: true
+
+open_profile_menu_button:
+  role: button
+  name: "Open profile menu"
+
+view_update_profile_link:
+  role: link
+  name: "View & Update Profile"
+
+profile_summary_heading:
+  role: heading
+  name: "Profile summary"
+
+edit_profile_summary_button:
+  role: button
+  name: "Edit profile summary"
+
+save_button:
+  role: button
+  name: "Save"
+
+profile_updated_success_message:
+  role: text
+  name: "Profile updated successfully"
+
+email_input:
+  role: textbox
+  name: "Email ID / Username"
+
+password_input:
+  role: textbox
+  name: "#naukri@pwd"

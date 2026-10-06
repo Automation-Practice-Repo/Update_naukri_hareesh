@@ -1,0 +1,34 @@
+# Schedule Configuration for Naukri Automation
+# Daily run at 9:00 AM IST
+
+schedule:
+  # Run type: "interval" or "daily"
+  type: "daily"
+  
+  # For daily type - time to run (24-hour format, IST)
+  daily_time: "09:00"
+  
+  # Timezone for daily schedule
+  timezone: "Asia/Kolkata"
+  
+  # Maximum number of runs (0 = unlimited)
+  max_runs: 0
+
+execution:
+  # Path to the pytest command
+  pytest_path: "./naukri/bin/python -m pytest"
+  
+  # Test file to run
+  test_file: "tests/test_naukri_update.py"
+  
+  # Additional pytest flags
+  pytest_flags: "-v --tb=short"
+  
+  # Working directory
+  working_directory: "/Users/hareesh_chow/PycharmProjects/auto_update_naukri"
+
+# Notification settings
+notifications:
+  on_success: true
+  on_failure: true
+  log_file: "reports/scheduler.log"

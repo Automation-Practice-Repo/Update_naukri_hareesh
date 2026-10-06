@@ -1,0 +1,54 @@
+# Naukri Test Configuration
+# Credentials are loaded from .env file for security
+# See .env.example for the required environment variables
+
+naukri:
+  url: "https://www.naukri.com/"
+
+# Screenshot settings
+screenshots:
+  on_pass: true
+  on_fail: true
+  directory: "reports/screenshots"
+
+# Test execution settings
+# NOTE: Naukri.com uses Akamai bot protection that blocks headless browsers.
+# Use headless: false for reliable execution.
+test:
+  headless: false
+  timeout: 30000
+
+# Telegram notification settings (recommended - simple setup)
+telegram:
+  enabled: false
+  # Bot token and chat ID loaded from .env for security
+  # TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID in .env
+  # Setup:
+  #   1. Open Telegram, search for @BotFather
+  #   2. Send /newbot and follow instructions
+  #   3. Copy the bot token
+  #   4. Send a message to your bot
+  #   5. Visit https://api.telegram.org/bot<token>/getUpdates to get chat_id
+  # Notify on pass (default: false, to reduce noise)
+  notify_on_pass: false
+  # Notify on failure (default: true)
+  notify_on_fail: true
+
+# Email notification settings (optional - more complex setup)
+email:
+  enabled: false
+  # SMTP server configuration (loaded from .env for security)
+  # SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASSWORD in .env
+  smtp_host: "${SMTP_HOST}"
+  smtp_port: "${SMTP_PORT}"
+  smtp_user: "${SMTP_USER}"
+  smtp_password: "${SMTP_PASSWORD}"
+  # Recipient email addresses
+  recipients:
+    - "hareesh.ayyappagarii@gmail.com"
+  # Sender email (defaults to SMTP_USER)
+  sender: "${SMTP_USER}"
+  # Notify on pass (default: false, to reduce noise)
+  notify_on_pass: false
+  # Notify on failure (default: true)
+  notify_on_fail: true
