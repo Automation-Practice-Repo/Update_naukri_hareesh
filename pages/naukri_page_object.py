@@ -45,10 +45,13 @@ class NaukriPage:
                 "--disable-blink-features=AutomationControlled",
                 "--no-sandbox",
                 "--disable-dev-shm-usage",
+                "--disable-web-security",
+                "--disable-features=IsolateOrigins,site-per-process",
+                "--disable-site-isolation-trials",
             ],
         )
 
-        # Create context with realistic settings
+        # Create context with realistic settings for cloud environments
         self.context = self.browser.new_context(
             user_agent=(
                 "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
@@ -58,27 +61,68 @@ class NaukriPage:
             viewport={"width": 1920, "height": 1080},
             locale="en-IN",
             timezone_id="Asia/Kolkata",
+            geolocation={"latitude": 28.6139, "longitude": 77.2090},  # Delhi
             permissions=["geolocation"],
+            extra_http_headers={
+                "Accept-Language": "en-IN,en;q=0.9",
+                "Accept-Encoding": "gzip, deflate, br",
+                "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
+                "Referer": "https://www.google.com/",
+                "DNT": "1",
+                "Upgrade-Insecure-Requests": "1",
+                "Sec-Fetch-Dest": "document",
+                "Sec-Fetch-Mode": "navigate",
+                "Sec-Fetch-Site": "cross-site",
+                "Sec-Fetch-User": "?1",
+                "Cache-Control": "max-age=0",
+            },
         )
 
         # Add stealth script to hide automation indicators
         self.context.add_init_script(
             """
+            // Hide webdriver property
             Object.defineProperty(navigator, 'webdriver', {
                 get: () => undefined,
             });
+            delete navigator.__proto__.webdriver;
+
+            // Fake plugins
             Object.defineProperty(navigator, 'plugins', {
-                get: () => [1, 2, 3, 4, 5],
+                get: () => [
+                    { name: 'Chrome PDF Plugin', filename: 'internal-pdf-viewer' },
+                    { name: 'Chrome PDF Viewer', filename: 'mhjfbmdgcfjbbpaeojofohoefgiehjai' },
+                    { name: 'Native Client', filename: 'internal-nacl-plugin' },
+                ],
             });
+
+            // Fake languages
             Object.defineProperty(navigator, 'languages', {
-                get: () => ['en-IN', 'en'],
+                get: () => ['en-IN', 'en-US', 'en'],
             });
+
+            // Fake chrome object
             window.chrome = {
                 runtime: {},
-                app: {},
+                app: { isInstalled: false },
                 loadTimes: function() {},
                 csi: function() {},
+                app: { isInstalled: false },
             };
+
+            // Fake permissions
+            const originalQuery = window.navigator.permissions.query;
+            window.navigator.permissions.query = (parameters) => (
+                parameters.name === 'notifications' 
+                    ? Promise.resolve({ state: Notification.permission }) 
+                    : originalQuery(parameters)
+            );
+
+            // Hide automation
+            delete navigator.__proto__.webdriver;
+            Object.defineProperty(navigator, 'hardwareConcurrency', { get: () => 8 });
+            Object.defineProperty(navigator, 'deviceMemory', { get: () => 8 });
+            Object.defineProperty(navigator, 'platform', { get: () => 'Win32' });
             """
         )
 
